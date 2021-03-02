@@ -1,5 +1,5 @@
 Name:           linvst
-Version:        3.15
+Version:        3.2.1
 Release:        1%{?dist}
 Summary:        Windows VST wrapper for Linux
 
@@ -51,6 +51,9 @@ install -m 755 TestVst/{*.exe,*.so} %{buildroot}%{_datadir}/%{name}/testvst/
 %{_datadir}/%{name}/testvst/testvst.exe.so
 
 %changelog
+* Tue Mar 02 2021 Mattias Ohlsson <mattias.ohlsson@inprose.com> - 3.2.1-1
+- Update to 3.2.1
+
 * Thu Oct 29 2020 Mattias Ohlsson <mattias.ohlsson@inprose.com> - 3.15-1
 - Update to 3.15
 
