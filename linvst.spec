@@ -1,5 +1,5 @@
 Name:           linvst
-Version:        3.2.1
+Version:        4.5
 Release:        1%{?dist}
 Summary:        Windows VST wrapper for Linux
 
@@ -7,7 +7,12 @@ License:        GPLv3+
 URL:            https://github.com/osxmidi/LinVst
 Source0:        https://github.com/osxmidi/LinVst/archive/%{version}.tar.gz
 
-BuildRequires:  wine-devel libX11-devel
+Patch0:         linvst-4.5-add-winecxx-flags.patch
+
+BuildRequires:  gcc-c++ glibc-devel glibc-devel(x86-32)
+BuildRequires:  wine-devel libX11-devel libX11-devel(x86-32)
+BuildRequires:  libstdc++(x86-32) libX11(x86-32)
+
 Requires:       wine
 
 %description
@@ -20,7 +25,7 @@ Summary:        Test utility for LinVst
 TestVst can roughly test how a VST plugin might run under Wine.
 
 %prep
-%autosetup -n LinVst-%{version}
+%autosetup -p1 -n LinVst-%{version}
 
 %build
 %make_build CXX_FLAGS=-g WINECXX_FLAGS=-g
@@ -29,7 +34,6 @@ cd TestVst
 %make_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
 %make_install
 
 install -D -p vst/linvst.so %{buildroot}%{_datadir}/%{name}/linvst.so
@@ -42,6 +46,8 @@ install -m 755 TestVst/{*.exe,*.so} %{buildroot}%{_datadir}/%{name}/testvst/
 %doc README.md
 %{_bindir}/lin-vst-servertrack.exe
 %{_bindir}/lin-vst-servertrack.exe.so
+%{_bindir}/lin-vst-servertrack32.exe
+%{_bindir}/lin-vst-servertrack32.exe.so
 %{_datadir}/%{name}/linvst.so
 
 %files testvst
@@ -51,6 +57,9 @@ install -m 755 TestVst/{*.exe,*.so} %{buildroot}%{_datadir}/%{name}/testvst/
 %{_datadir}/%{name}/testvst/testvst.exe.so
 
 %changelog
+* Sat Jul 17 2021 Mattias Ohlsson <mattias.ohlsson@inprose.com> - 4.5-1
+- Update to 4.5
+
 * Tue Mar 02 2021 Mattias Ohlsson <mattias.ohlsson@inprose.com> - 3.2.1-1
 - Update to 3.2.1
 
